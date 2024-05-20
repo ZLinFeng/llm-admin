@@ -1,12 +1,15 @@
 <script setup lang="ts">
 
-import {Location, User} from "@element-plus/icons-vue"
+import {DArrowLeft, DArrowRight, Location, User} from "@element-plus/icons-vue"
+import {ref} from "vue"
+
+const collapse = ref(false)
 </script>
 
 <template>
   <div class="aside-wrapper">
     <div class="logo-wrapper">
-      <div>Logo</div>
+      <span>LLM-Admin</span>
     </div>
     <div class="menu-wrapper">
       <el-scrollbar>
@@ -14,6 +17,8 @@ import {Location, User} from "@element-plus/icons-vue"
           active-text-color="#ffd04b"
           background-color="#545c64"
           text-color="#fff"
+          class="menu"
+          :collapse="collapse"
         >
           <el-sub-menu index="1">
             <template #title>
@@ -91,28 +96,77 @@ import {Location, User} from "@element-plus/icons-vue"
       </el-scrollbar>
     </div>
     <div class="logout-wrapper">
-      Logout
+      <div
+        class="collapse-btn"
+        @click="collapse = !collapse"
+      >
+        <el-icon v-if="!collapse">
+          <DArrowLeft />
+        </el-icon>
+        <el-icon v-else>
+          <DArrowRight />
+        </el-icon>
+      </div>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .aside-wrapper {
   height: 100vh;
 }
 
 .logo-wrapper {
   height: 10%;
-  background-color: burlywood;
+  background-color: #545c64;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.5em;
 }
 
 .logout-wrapper {
   height: 5%;
-  background-color: burlywood;
+  background-color: #545c64;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  color: white;
+  cursor: pointer;
+}
+
+.collapse-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.collapse-btn:hover {
+  background-color: #ffd04b;
+  color: black;
 }
 
 .menu-wrapper {
   height: 85%;
   background-color: #545c64;
+}
+
+.menu {
+  border: 0;
+}
+
+.el-sub-menu__title {
+  span {
+    font-size: 1.2em;
+  }
+}
+
+.el-menu-item {
+  font-size: 1em;
 }
 </style>

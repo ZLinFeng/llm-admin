@@ -7,14 +7,14 @@ import Content from "@/components/layout/Content.vue"
 <template>
   <div>
     <el-container>
-      <el-aside class="aside-wrapper">
+      <el-aside class="aside-container">
         <Aside />
       </el-aside>
       <el-container>
-        <el-header>
+        <el-header class="header-container">
           <Header />
         </el-header>
-        <el-main>
+        <el-main class="main-container">
           <Content />
         </el-main>
       </el-container>
@@ -23,8 +23,11 @@ import Content from "@/components/layout/Content.vue"
 </template>
 
 <style scoped>
-.aside-wrapper {
+.aside-container {
   height: 100vh;
-  width: 200px;
+}
+
+.header-container {
+  padding: 0;
 }
 </style>
