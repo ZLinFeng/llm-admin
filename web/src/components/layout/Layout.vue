@@ -7,7 +7,7 @@ import Content from "@/components/layout/Content.vue"
 <template>
   <div>
     <el-container>
-      <el-aside>
+      <el-aside class="aside-wrapper">
         <Aside />
       </el-aside>
       <el-container>
@@ -23,5 +23,8 @@ import Content from "@/components/layout/Content.vue"
 </template>
 
 <style scoped>
-
+.aside-wrapper {
+  height: 100vh;
+  width: 200px;
+}
 </style>

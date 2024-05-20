@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
     "@types/node": "18.18.2",
     "element-plus": "^2.7.3",
     "normalize.css": "^8.0.1",
