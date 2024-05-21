@@ -7,9 +7,12 @@ const collapse = ref(false)
 </script>
 
 <template>
-  <div class="aside-wrapper">
+  <div
+    class="aside-wrapper"
+    :style="{width: collapse ? '100px' : '250px'}"
+  >
     <div class="logo-wrapper">
-      <span>LLM-Admin</span>
+      <span v-if="!collapse">LLM-Admin</span>
     </div>
     <div class="menu-wrapper">
       <el-scrollbar>
