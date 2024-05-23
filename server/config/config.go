@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"sync"
@@ -40,28 +41,51 @@ func LoadSysSetting() {
 		globalConfig = &Config{}
 		_, err := toml.DecodeFile("config.toml", globalConfig)
 		if err != nil {
-			log.Fatalf("Fatal error while loading system config file: %s", err)
+			fmt.Printf("Fatal error while loading system config file: %s", err)
 			os.Exit(1)
 		}
 		// 校验并设置默认字段
 		globalConfig.Server.valid()
 		globalConfig.Datebase.valid()
 		globalConfig.Log.valid()
+		globalConfig.print()
 	})
 }
 
 func (c *ServerConfig) valid() {
 	if c.Port == 0 {
-		log.Printf("Use default server port: 8080")
 		c.Port = 8080
 	}
 }
 
 func (c *DatabaseConfig) valid() {
-
+	if c.Host == "" {
+		c.Host = "127.0.0.1"
+	}
+	if c.Port == 0 {
+		c.Port = 4000
+	}
+	if c.Username == "" {
+		c.Username = "root"
+	}
 }
 
 func (c *LogConfig) valid() {
+	if c.Pattern == "" {
+		c.Pattern = "std"
+	}
+	if c.Days == 0 {
+		c.Days = 7
+	}
+	if c.Level == "" {
+		c.Level = "info"
+	}
+	if c.Size == 0 {
+		c.Size = 100
+	}
+}
+
+func (c *Config) print() {
 
 }
 
