@@ -1,18 +1,23 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
+	"github.com/ZlinFeng/llm-admin/server/config"
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
-	fmt.Println("Hello")
+	// 加载系统配置
+	config.LoadSysSetting()
+	// 配置日志
+	config.LogSetting(config.GetConfig())
 }
 
 func main() {
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
+		log.Printf("Get request from: %s", c.RemoteIP())
 		c.JSON(200, gin.H{
 			"res": "pong",
 		})
