@@ -86,7 +86,18 @@ func (c *LogConfig) valid() {
 }
 
 func (c *Config) print() {
-	fmt.Println()
+	fmt.Println("Server:")
+	fmt.Printf("%20s%16d\n", "Port:", c.Server.Port)
+	fmt.Println("Database:")
+	fmt.Printf("%20s%16s\n", "Host:", c.Datebase.Host)
+	fmt.Printf("%20s%16d\n", "Port:", c.Datebase.Port)
+	fmt.Printf("%20s%16s\n", "Username:", c.Datebase.Username)
+	fmt.Printf("%20s%16s\n", "Password:", "******")
+	fmt.Println("Log:")
+	fmt.Printf("%20s%16s\n", "Pattern:", c.Log.Pattern)
+	fmt.Printf("%20s%16s\n", "Level:", c.Log.Level)
+	fmt.Printf("%20s%16s\n", "File Size:", fmt.Sprintf("%d MB", c.Log.Size))
+	fmt.Printf("%20s%16s\n", "Retention Period:", fmt.Sprintf("%d days", c.Log.Days))
 }
 
 func GetConfig() *Config {
