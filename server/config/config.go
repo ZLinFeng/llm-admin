@@ -86,7 +86,7 @@ func (c *LogConfig) valid() {
 }
 
 func (c *Config) print() {
-
+	fmt.Println()
 }
 
 func GetConfig() *Config {
