@@ -15,6 +15,7 @@ func init() {
 }
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		log.Printf("Get request from: %s", c.RemoteIP())
