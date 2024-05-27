@@ -8,7 +8,5 @@ user = "root"
 password = "password"
 
 [log]
-pattern = "file"
+pattern = "std"
 level = "info"
-size = 100
-days = 7
