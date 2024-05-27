@@ -110,19 +110,37 @@ func (c *LogConfig) valid() {
 	}
 }
 
+func printBanner() {
+	banner := "    %s__    __    __  ___%s      %s___       __          _%s     \n" +
+		"   %s/ /   / /   /  |/  /%s     %s/   | ____/ /___ ___  (_)___%s \n" +
+		"  %s/ /   / /   / /|_/ /%s_____%s/ /| |/ __  / __ `__ \\/ / __ \\%s\n" +
+		" %s/ /___/ /___/ /  / /%s_____%s/ ___ / /_/ / / / / / / / / / /%s\n" +
+		"%s/_____/_____/_/  /_/%s     %s/_/  |_\\__,_/_/ /_/ /_/_/_/ /_/ %s\n"
+	fmt.Printf(banner, ColorMagenta, ColorReset, ColorYellow, ColorReset,
+		ColorMagenta, ColorReset, ColorYellow, ColorReset,
+		ColorMagenta, ColorGreen, ColorYellow, ColorReset,
+		ColorMagenta, ColorGreen, ColorYellow, ColorReset,
+		ColorMagenta, ColorReset, ColorYellow, ColorReset)
+	fmt.Println()
+	fmt.Printf(" %s:: %sLLM-Admin%s ::       %s(v%s.RELEASE)%s\n",
+		ColorGreen, ColorMagenta, ColorGreen, ColorYellow, "1.0.0", ColorReset)
+}
+
 func (c *Config) print() {
-	fmt.Println("Server:")
-	fmt.Printf("%20s%16d\n", "Port:", c.Server.Port)
-	fmt.Println("Database:")
-	fmt.Printf("%20s%16s\n", "Host:", c.Datebase.Host)
-	fmt.Printf("%20s%16d\n", "Port:", c.Datebase.Port)
-	fmt.Printf("%20s%16s\n", "Username:", c.Datebase.Username)
-	fmt.Printf("%20s%16s\n", "Password:", "******")
-	fmt.Println("Log:")
-	fmt.Printf("%20s%16s\n", "Pattern:", c.Log.Pattern)
-	fmt.Printf("%20s%16s\n", "Level:", c.Log.Level)
-	fmt.Printf("%20s%16s\n", "File Size:", fmt.Sprintf("%d MB", c.Log.Size))
-	fmt.Printf("%20s%16s\n", "Retention Period:", fmt.Sprintf("%d days", c.Log.Days))
+	printBanner()
+	fmt.Printf("+%s+\n", strings.Repeat("-", 34))
+	fmt.Printf("|Server%13s%s%15d%s|\n", "Port:", ColorCyan, c.Server.Port, ColorReset)
+	fmt.Printf("+%s+\n", strings.Repeat("-", 34))
+	fmt.Printf("|Database%11s%s%15s%s|\n", "Host:", ColorCyan, c.Datebase.Host, ColorReset)
+	fmt.Printf("|%19s%s%15d%s|\n", "Port:", ColorCyan, c.Datebase.Port, ColorReset)
+	fmt.Printf("|%19s%s%15s%s|\n", "Username:", ColorCyan, c.Datebase.Username, ColorReset)
+	fmt.Printf("|%19s%15s|\n", "Password:", "******")
+	fmt.Printf("+%s+\n", strings.Repeat("-", 34))
+	fmt.Printf("|Log%16s%s%15s%s|\n", "Pattern:", ColorCyan, c.Log.Pattern, ColorReset)
+	fmt.Printf("|%19s%s%15s%s|\n", "Level:", ColorCyan, c.Log.Level, ColorReset)
+	fmt.Printf("|%19s%s%15s%s|\n", "File Size:", ColorCyan, fmt.Sprintf("%d MB", c.Log.Size), ColorReset)
+	fmt.Printf("|%19s%s%15s%s|\n", "Retention Period:", ColorCyan, fmt.Sprintf("%d days", c.Log.Days), ColorReset)
+	fmt.Printf("+%s+\n", strings.Repeat("-", 34))
 }
 
 func GetConfig() *Config {
