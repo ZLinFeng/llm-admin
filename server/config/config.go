@@ -4,9 +4,20 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 	"sync"
 
 	"github.com/BurntSushi/toml"
+)
+
+const (
+	ColorRed     = "\033[31m"
+	ColorGreen   = "\033[32m"
+	ColorYellow  = "\033[33m"
+	ColorBlue    = "\033[34m"
+	ColorMagenta = "\033[35m"
+	ColorCyan    = "\033[36m"
+	ColorReset   = "\033[0m"
 )
 
 type Config struct {
@@ -41,7 +52,7 @@ func LoadSysSetting() {
 		globalConfig = &Config{}
 		_, err := toml.DecodeFile("config.toml", globalConfig)
 		if err != nil {
-			fmt.Printf("Fatal error while loading system config file: %s", err)
+			fmt.Printf("%sFatal error%s while loading system config file: %s", ColorRed, ColorReset, err)
 			os.Exit(1)
 		}
 		// 校验并设置默认字段
@@ -71,8 +82,22 @@ func (c *DatabaseConfig) valid() {
 }
 
 func (c *LogConfig) valid() {
+	c.Pattern = strings.ToLower(c.Pattern)
+	c.Level = strings.ToLower(c.Level)
 	if c.Pattern == "" {
 		c.Pattern = "std"
+	} else {
+		parts := strings.Split(c.Pattern, ",")
+		for _, pattern := range parts {
+			if pattern != "std" && pattern != "file" {
+				fmt.Printf("Only %s`std`%s and %s`file`%s log pattern are supported.",
+					ColorRed,
+					ColorReset,
+					ColorRed,
+					ColorReset)
+				os.Exit(1)
+			}
+		}
 	}
 	if c.Days == 0 {
 		c.Days = 7
