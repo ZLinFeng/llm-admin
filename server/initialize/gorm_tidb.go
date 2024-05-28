@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/ZlinFeng/llm-admin/server/config"
+	"github.com/ZlinFeng/llm-admin/server/entity/domain"
 	"github.com/ZlinFeng/llm-admin/server/util"
 	log "github.com/sirupsen/logrus"
 
@@ -42,7 +43,20 @@ func InitTidb() {
 		sqlDB.SetConnMaxLifetime(time.Hour)
 		log.Info("Connectting db " + util.PrintWithSuccess("[Successed]"))
 		globalDb = db
+		autoMigrate()
 	})
+}
+
+func autoMigrate() {
+	err := globalDb.AutoMigrate(
+		domain.User{},
+		domain.Role{},
+	)
+	if err != nil {
+		log.Error("Failed to register tables: " + err.Error())
+		os.Exit(0)
+	}
+	log.Info("Register tables " + util.PrintWithSuccess("[Successed]"))
 }
 
 func handleErr(err error) {
