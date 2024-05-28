@@ -5,6 +5,8 @@ import (
 	"strings"
 	"time"
 
+	c "github.com/ZlinFeng/llm-admin/server/constant"
+	"github.com/ZlinFeng/llm-admin/server/util"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -36,28 +38,23 @@ func (f *LogFormatter) Format(entry *log.Entry) ([]byte, error) {
 	}
 	switch entry.Level {
 	case log.WarnLevel:
-		color = ColorYellow
+		color = c.ColorYellow
 	case log.ErrorLevel:
-		color = ColorRed
+		color = c.ColorRed
 	case log.FatalLevel:
-		color = ColorRed
+		color = c.ColorRed
 	default:
-		color = ColorGreen
+		color = c.ColorGreen
 	}
-	return []byte(fmt.Sprintf("%s%s%s %s%s%s --- %s[%15s:%4d]%s %s%30s:%s %s\n",
-		ColorCyan,
-		timestampStr,
-		ColorReset,
-		color,
-		strings.ToUpper(entry.Level.String()),
-		ColorReset,
-		ColorMagenta,
-		funcName,
-		line,
-		ColorReset,
-		ColorBlue,
-		codeFile,
-		ColorReset,
+	levelWithColor := util.PrintWithColor(strings.ToUpper(entry.Level.String()), color)
+	funcAndLine := util.PrintWithColor(fmt.Sprintf("[%15s:%4d]", funcName, line),
+		c.ColorMagenta)
+	return []byte(fmt.Sprintf("%s %s %s %s %s: %s\n",
+		util.PrintWithColor(timestampStr, c.ColorCyan),
+		levelWithColor,
+		strings.Repeat("-", 8-len(entry.Level.String())),
+		funcAndLine,
+		util.PrintWithColor(codeFile, c.ColorBlue),
 		entry.Message)), nil
 }
 

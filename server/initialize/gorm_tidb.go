@@ -2,40 +2,62 @@ package initialize
 
 import (
 	"errors"
+	"fmt"
+	"os"
+	"sync"
 	"time"
 
+	"github.com/ZlinFeng/llm-admin/server/config"
+	"github.com/ZlinFeng/llm-admin/server/util"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/ZlinFeng/llm-admin/server/config"
 	gsql "github.com/go-sql-driver/mysql"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
-func InitTidb() *gorm.DB {
-	globalC := config.GetConfig()
-	globalC.Datebase.Valid()
-	dsn := globalC.Datebase.Dsn()
+var globalDb *gorm.DB
+var once sync.Once
 
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		handleErr(err)
-	}
-	sqlDB, err := db.DB()
-	if err != nil {
-		log.Error("")
-	}
-	sqlDB.SetMaxIdleConns(10)
-	sqlDB.SetMaxOpenConns(100)
-	sqlDB.SetConnMaxLifetime(time.Hour)
-	return db
+func InitTidb() {
+	once.Do(func() {
+		globalC := config.GetConfig()
+		globalC.Datebase.Valid()
+		dsn := globalC.Datebase.Dsn()
+
+		db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Silent),
+		})
+		if err != nil {
+			handleErr(err)
+		}
+		sqlDB, err := db.DB()
+		if err != nil {
+			log.Error("Fatal error while getting db: " + err.Error())
+			os.Exit(1)
+		}
+		sqlDB.SetMaxIdleConns(10)
+		sqlDB.SetMaxOpenConns(100)
+		sqlDB.SetConnMaxLifetime(time.Hour)
+		log.Info("Connectting db " + util.PrintWithSuccess("[Successed]"))
+		globalDb = db
+	})
 }
 
 func handleErr(err error) {
 	var sqlErr *gsql.MySQLError
 	if errors.As(err, &sqlErr) {
-		log.Info(sqlErr.Number)
+		log.Error(fmt.Sprintf("DB Error Code: %d, Error msg: %s", sqlErr.Number, sqlErr.Message))
 	} else {
 		log.Error(err.Error())
 	}
+	os.Exit(1)
+}
+
+func GetDb() *gorm.DB {
+	if globalDb == nil {
+		log.Fatal("Database not initialized.")
+	}
+	return globalDb
 }
