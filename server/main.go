@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/ZlinFeng/llm-admin/server/config"
+	"github.com/ZlinFeng/llm-admin/server/initialize"
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +13,7 @@ func init() {
 	config.LoadSysSetting()
 	// 配置日志
 	config.LogSetting(config.GetConfig())
+	initialize.InitTidb()
 }
 
 func main() {

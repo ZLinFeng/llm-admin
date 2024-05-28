@@ -1,6 +1,11 @@
 package config
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+
+	log "github.com/sirupsen/logrus"
+)
 
 type DatabaseConfig struct {
 	Host     string `toml:"host"`
@@ -16,5 +21,8 @@ func (t *DatabaseConfig) Dsn() string {
 }
 
 func (t *DatabaseConfig) Valid() {
-
+	if t.Dbname == "" {
+		log.Error("Database: dbname is empty.")
+		os.Exit(1)
+	}
 }
