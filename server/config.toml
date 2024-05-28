@@ -6,6 +6,7 @@ host = ""
 port = 4000
 user = "root"
 password = "password"
+dbname = "poc_dev_v2.0"
 
 [log]
 pattern = "std"

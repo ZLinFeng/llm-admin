@@ -30,13 +30,6 @@ type ServerConfig struct {
 	Port int `toml:"port"`
 }
 
-type DatabaseConfig struct {
-	Host     string `toml:"host"`
-	Port     int    `toml:"port"`
-	Username string `toml:"username"`
-	Password string `toml:"password"`
-}
-
 type LogConfig struct {
 	Pattern string `toml:"pattern"`
 	Level   string `toml:"level"`
@@ -55,21 +48,21 @@ func LoadSysSetting() {
 			fmt.Printf("%sFatal error%s while loading system config file: %s", ColorRed, ColorReset, err)
 			os.Exit(1)
 		}
-		// 校验并设置默认字段
-		globalConfig.Server.valid()
-		globalConfig.Datebase.valid()
-		globalConfig.Log.valid()
+		// 设置默认字段
+		globalConfig.Server.defaultValue()
+		globalConfig.Datebase.defaultValue()
+		globalConfig.Log.defaultValue()
 		globalConfig.print()
 	})
 }
 
-func (c *ServerConfig) valid() {
+func (c *ServerConfig) defaultValue() {
 	if c.Port == 0 {
 		c.Port = 8080
 	}
 }
 
-func (c *DatabaseConfig) valid() {
+func (c *DatabaseConfig) defaultValue() {
 	if c.Host == "" {
 		c.Host = "127.0.0.1"
 	}
@@ -81,7 +74,7 @@ func (c *DatabaseConfig) valid() {
 	}
 }
 
-func (c *LogConfig) valid() {
+func (c *LogConfig) defaultValue() {
 	c.Pattern = strings.ToLower(c.Pattern)
 	c.Level = strings.ToLower(c.Level)
 	if c.Pattern == "" {
