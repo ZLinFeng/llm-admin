@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "10.10.207.30",
+            "port": 4000,
+            "driver": "TiDB",
+            "database": "llm_admin",
+            "username": "root",
+            "name": "llm-admin",
+            "group": "llm",
+            "password": "rzx@1218"
+        }
+    ]
+}

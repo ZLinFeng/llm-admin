@@ -6,7 +6,7 @@ host = "10.10.207.30"
 port = 4000
 user = "root"
 password = "rzx@1218"
-dbname = "poc_dev_v2.0"
+dbname = "llm_admin"
 
 [log]
 pattern = "std"
