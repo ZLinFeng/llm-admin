@@ -20,6 +20,8 @@ module.exports = {
             {"avoidEscape": true, "allowTemplateLiterals": true}
         ],
 		"semi": ["error", "never"],
-        "vue/multi-word-component-names": "off"
+        "vue/multi-word-component-names": "off",
+		"indent": ["error", 2],
+		"vue/html-indent": ["error", 2]
 	}
 }
