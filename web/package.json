@@ -10,13 +10,15 @@
     "lint": "eslint --ext .js,.vue,.ts --ignore-path .gitignore --fix src"
   },
   "dependencies": {
+    "@types/node": "18.18.2",
+    "normalize.css": "^8.0.1",
     "primeicons": "^7.0.0",
     "primevue": "^3.52.0",
-    "vue": "^3.4.21",
-    "@types/node": "18.18.2"
+    "vue": "^3.4.21"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
+    "@vue/runtime-dom": "^3.4.27",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.26.0",
     "globals": "^15.3.0",

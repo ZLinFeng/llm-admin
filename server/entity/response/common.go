@@ -32,5 +32,5 @@ func Result(code int, data interface{}, msg string, c *gin.Context) {
 }
 
 func Ok(c *gin.Context) {
-	Result()
+	//Result()
 }

@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import Button from "primevue/button"
+import Layout from "@/components/layout/Layout.vue"
 </script>
 
 <template>
-  <div>
-    <Button>Click</Button>
-  </div>
+  <Layout />
 </template>
 
 <style scoped>
